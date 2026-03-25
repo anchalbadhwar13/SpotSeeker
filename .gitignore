@@ -1,0 +1,10 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Large datasets
+data/*.csv
+
+# Saved models
+models/*.pkl
+models/*.joblib
