@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-# 1. Load dataset
+
 df = pd.read_csv('synthetic_parking_dataset.csv')
 
 # 2. Define feature/target columns based on current dataset schema
@@ -39,7 +39,7 @@ scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-# 5. Export as separate CSVs for the team 
+
 output_dir = 'processed_data'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
