@@ -25,7 +25,9 @@ for bar, val in zip(bars, accuracies):
     plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
              f'{val}%', ha='center', fontweight='bold')
 plt.tight_layout()
-plt.savefig('milestone2_comparison.png', dpi=150)
+import os
+os.makedirs('outputs', exist_ok=True)
+plt.savefig('outputs/milestone2_comparison.png', dpi=150)
 plt.show()
 print("\nSaved milestone2_comparison.png")
 
