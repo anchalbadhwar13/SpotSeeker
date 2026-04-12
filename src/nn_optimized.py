@@ -14,18 +14,6 @@ y_test = pd.read_csv(os.path.join(data_dir, 'y_test.csv')).values.ravel()
 print("Starting Neural Network Optimization")
 
 # 2. Hyperparameter Optimization 
-# Optimized Architecture: (128, 64, 32) for better feature extraction
-# alpha: 0.0001 (L2 regularization) to ensure the model doesn't "memorize" the synthetic data
-# mlp_optimized = MLPClassifier(
-#     hidden_layer_sizes=(128, 64, 32), 
-#     activation='relu', 
-#     solver='adam', 
-#     alpha=0.0001,  
-#     learning_rate_init=0.001,
-#     max_iter=1000, 
-#     random_state=42,
-#     verbose=True # Shows training progress for your report proof
-# )
 mlp_optimized = MLPClassifier(
     hidden_layer_sizes=(128, 64, 32), 
     activation='relu', 

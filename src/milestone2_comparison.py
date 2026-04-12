@@ -1,4 +1,4 @@
-# TemporaPark — Milestone 2: Model Comparison (Manya Asri)
+# TemporaPark — Milestone 2: Model Comparison
 # Generates Accuracy, F1-Score and Confusion Matrices for all three models
 
 import numpy as np
@@ -15,9 +15,7 @@ from sklearn.metrics import (
     confusion_matrix
 )
 
-# =============================================================================
 # CONFIG
-# =============================================================================
 
 PARKING_CSV_PATH = "synthetic_parking_dataset.csv"
 
@@ -37,9 +35,7 @@ LABEL_NAMES      = ["Available", "Unavailable"]
 RANDOM_STATE     = 42
 TEST_SIZE        = 0.20
 
-# =============================================================================
 # LOAD & PREPROCESS
-# =============================================================================
 
 def load_and_preprocess():
     df = pd.read_csv(PARKING_CSV_PATH)
@@ -48,9 +44,7 @@ def load_and_preprocess():
     X  = pd.get_dummies(X, columns=CATEGORICAL_COLS, drop_first=True)
     return X, y
 
-# =============================================================================
 # TRAIN / TEST SPLIT
-# =============================================================================
 
 def split_and_scale(X, y):
     X_train, X_test, y_train, y_test = train_test_split(
@@ -64,9 +58,7 @@ def split_and_scale(X, y):
     X_test_sc      = scaler.transform(X_test)
     return X_train, X_test, X_train_sc, X_test_sc, y_train, y_test
 
-# =============================================================================
 # EVALUATE — confusion matrix + classification report for one model
-# =============================================================================
 
 def evaluate_model(model_name, y_test, y_pred):
     acc  = accuracy_score(y_test, y_pred)
@@ -89,9 +81,7 @@ def evaluate_model(model_name, y_test, y_pred):
 
     return {"model": model_name, "accuracy": acc, "precision": prec, "f1": f1}
 
-# =============================================================================
 # MODELS
-# =============================================================================
 
 def run_decision_tree(X_train, X_test, y_train, y_test):
     dt = DecisionTreeClassifier(max_depth=10, random_state=RANDOM_STATE, criterion="gini")
@@ -125,9 +115,7 @@ def run_neural_network(y_test, y_pred_from_anchal):
 
     return evaluate_model("Neural Network (MLP)", y_test, y_pred_from_anchal)
 
-# =============================================================================
 # COMPARISON TABLE
-# =============================================================================
 
 def print_comparison_table(results):
     print(f"\n{'='*55}")
@@ -142,9 +130,7 @@ def print_comparison_table(results):
             print(f"  {r['model']:<25} {r['accuracy']*100:>9.2f}% {r['precision']*100:>9.2f}% {r['f1']*100:>9.2f}%")
     print()
 
-# =============================================================================
 # MAIN
-# =============================================================================
 
 if __name__ == "__main__":
 
@@ -159,9 +145,7 @@ if __name__ == "__main__":
     # KNN
     results.append(run_knn(X_train_sc, X_test_sc, y_train, y_test))
 
-    # Neural Network — set to None until Anchal sends predictions
-    # TO PLUG IN: replace None with her y_pred array
-    # nn_predictions = None
+    # Neural Network 
     nn_predictions = pd.read_csv("nn_predictions.csv")["y_pred"].values
     results.append(run_neural_network(y_test, nn_predictions))
 

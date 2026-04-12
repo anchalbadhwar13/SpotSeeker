@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 SpotSeeker — Generate More Balanced Synthetic Data
 Appends ~15,000 new rows to synthetic_parking_dataset.csv with a more
@@ -26,8 +25,6 @@ durations   = np.random.choice([15,30,60,90,120,180,240,360,480], N)
 spec_events = np.random.choice([0, 1], N, p=[0.85, 0.15])
 precip      = np.where(np.isin(weathers, ['Light Rain', 'Heavy Rain']), 1, 0)
 
-# ── Realistic availability logic ──────────────────────────────────────────────
-# Base probability of being Available
 p_available = np.full(N, 0.65)
 
 # Rush hours → less available

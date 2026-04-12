@@ -1,6 +1,3 @@
-# Note
-# loader function you can all copy-paste at the top of your scripts
-# it handles encoding the categorical columns, so nobody gets errors from string values
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
