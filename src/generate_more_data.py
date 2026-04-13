@@ -1,10 +1,3 @@
-"""
-SpotSeeker — Generate More Balanced Synthetic Data
-Appends ~15,000 new rows to synthetic_parking_dataset.csv with a more
-realistic and balanced Available/Unavailable distribution.
-Run this BEFORE data_prep.py if your dataset is too small or too imbalanced.
-"""
-
 import numpy as np
 import pandas as pd
 

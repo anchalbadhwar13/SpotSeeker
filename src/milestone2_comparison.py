@@ -98,19 +98,9 @@ def run_knn(X_train_sc, X_test_sc, y_train, y_test):
 
 
 def run_neural_network(y_test, y_pred_from_anchal):
-    """
-    Plug in Anchal's Neural Network predictions here.
-    y_pred_from_anchal should be a list or numpy array of 0s and 1s
-    with the same length as y_test (1000 values).
 
-    HOW TO GET IT FROM ANCHAL:
-      1. She runs her MLPClassifier on the same test set
-      2. She does: y_pred = model.predict(X_test)
-      3. She sends you that array or saves it as nn_predictions.csv
-      4. Load it here: y_pred_from_anchal = pd.read_csv("nn_predictions.csv")["y_pred"].values
-    """
     if y_pred_from_anchal is None:
-        print("\n  Neural Network — waiting for Anchal's predictions")
+        print("\n  Neural Network ")
         return {"model": "Neural Network", "accuracy": None, "precision": None, "f1": None}
 
     return evaluate_model("Neural Network (MLP)", y_test, y_pred_from_anchal)

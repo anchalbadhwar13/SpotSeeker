@@ -1,19 +1,13 @@
-"""
-SpotSeeker CLI v2.0 — Predict parking spot availability by zone.
-All predictions come from the trained model. Nothing is hardcoded.
-Usage: python3 spotseeker_cli.py
-"""
-
 import sys
 import joblib
 import pandas as pd
 
-# ── Paths ──────────────────────────────────────────────────────────────────────
+# Paths 
 MODEL_PATH    = "spotseeker_final_nn.joblib"
 SCALER_PATH   = "spotseeker_scaler.joblib"
 FEATURES_PATH = "spotseeker_feature_cols.joblib"
 
-# ── Menu options (match exact strings in synthetic_parking_dataset.csv) ────────
+# Menu options (match exact strings in synthetic_parking_dataset.csv)
 DAYS = {
     "1": (0, "Monday"),    "2": (1, "Tuesday"),  "3": (2, "Wednesday"),
     "4": (3, "Thursday"),  "5": (4, "Friday"),   "6": (5, "Saturday"),
@@ -61,7 +55,7 @@ ZONE_CAPACITIES = {
 GREEN  = "\033[92m"; YELLOW = "\033[93m"; RED  = "\033[91m"
 CYAN   = "\033[96m"; BOLD   = "\033[1m";  RESET = "\033[0m"
 
-# ── UI Helpers ─────────────────────────────────────────────────────────────────
+# UI Helpers 
 def banner():
     print(f"""
 {BOLD}{CYAN}╔══════════════════════════════════════╗
@@ -138,16 +132,9 @@ def status_label(prob_available):
     else:
         return f"🔴  Full — very likely no spots  ({prob_available*100:.0f}% chance available)", RED
 
-# ── Feature builder ────────────────────────────────────────────────────────────
+# Feature builder 
 def build_feature_row(hour, day_of_week, month, weather, zone_key,
                       temp_c, duration_min, special_event, feature_cols):
-    """
-    Builds one unscaled feature row that exactly matches the column
-    order and one-hot structure produced by data_prep.py.
-
-    Strategy: start every column at 0, then fill in numeric values
-    and flip the correct one-hot columns to 1.
-    """
     row = {col: 0 for col in feature_cols}
 
     # ── Numeric features ───────────────────────────────────────────────
@@ -159,7 +146,7 @@ def build_feature_row(hour, day_of_week, month, weather, zone_key,
     row['Temperature_C']        = temp_c
     row['Parking_Duration_Min'] = duration_min
 
-    # ── One-hot: Weather_Condition ─────────────────────────────────────
+    # One-hot: Weather_Condition 
     # data_prep.py creates columns like: Weather_Condition_Sunny, etc.
     weather_col = f"Weather_Condition_{weather}"
     if weather_col in row:
@@ -167,7 +154,7 @@ def build_feature_row(hour, day_of_week, month, weather, zone_key,
     else:
         print(f"  ⚠  Warning: column '{weather_col}' not found in model features.")
 
-    # ── One-hot: Parking_Zone_ID ───────────────────────────────────────
+    # One-hot: Parking_Zone_ID
     zone_col = f"Parking_Zone_ID_{zone_key}"
     if zone_col in row:
         row[zone_col] = 1
@@ -177,7 +164,7 @@ def build_feature_row(hour, day_of_week, month, weather, zone_key,
     # Return DataFrame with columns in exact training order
     return pd.DataFrame([row])[feature_cols]
 
-# ── Main ───────────────────────────────────────────────────────────────────────
+# Main 
 def main():
     banner()
 
@@ -196,7 +183,7 @@ def main():
     print(f"✅ Model loaded  |  {len(feature_cols)} features  |  Classes: {list(model.classes_)}\n")
 
     while True:
-        # ── Collect all inputs from the user ──────────────────────────
+        #  Collect all inputs from the user 
         print(f"{BOLD}─── Step 1 of 6: Day of week ──────────────────{RESET}")
         _, day_val = prompt_menu("", DAYS, label="Day")
         day_num, day_name = day_val
@@ -223,13 +210,13 @@ def main():
         zone_key  = ZONES[zone_choice]
         capacity  = ZONE_CAPACITIES[zone_key]
 
-        # ── Build feature row → scale → predict ───────────────────────
+        #Build feature row → scale → predict 
         X_raw = build_feature_row(
             hour, day_num, month_num, weather, zone_key,
             temp, duration, special_event, feature_cols
         )
 
-        X_scaled = scaler.transform(X_raw)          # ← NEVER .fit() here
+        X_scaled = scaler.transform(X_raw)          
         proba    = model.predict_proba(X_scaled)[0]
         classes  = list(model.classes_)
 
@@ -243,7 +230,7 @@ def main():
 
         est_free = round(capacity * p_avail)
 
-        # ── Display result ─────────────────────────────────────────────
+        # Display result
         label, colour = status_label(p_avail)
         zone_display  = zone_key.replace("_", " ")
 

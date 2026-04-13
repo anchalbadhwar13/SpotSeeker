@@ -1,9 +1,3 @@
-"""
-SpotSeeker — Data Preprocessing
-Cleans, encodes, scales, and saves all artifacts needed by the CLI.
-Run this FIRST before train_nn.py
-"""
-
 import os
 import joblib
 import pandas as pd

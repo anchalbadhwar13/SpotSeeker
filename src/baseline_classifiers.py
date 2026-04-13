@@ -97,11 +97,7 @@ def evaluate(model_name, y_test, y_pred):
 
 
 def train_decision_tree(X_train, X_test, y_train, y_test):
-    """
-    Decision Tree classifier.
-    max_depth=10 limits overfitting — the tree can't memorise training data
-    by growing indefinitely. You can tune this value.
-    """
+
     dt = DecisionTreeClassifier(
         max_depth=10,
         random_state=RANDOM_STATE,
@@ -122,11 +118,6 @@ def train_decision_tree(X_train, X_test, y_train, y_test):
 
 
 def train_knn(X_train_scaled, X_test_scaled, y_train, y_test):
-    """
-    K-Nearest Neighbours classifier.
-    Uses SCALED features (StandardScaler applied above).
-    k=5 means each prediction is decided by voting among the 5 nearest neighbours.
-    """
     knn = KNeighborsClassifier(
         n_neighbors=5,
         metric="euclidean",   
@@ -139,11 +130,6 @@ def train_knn(X_train_scaled, X_test_scaled, y_train, y_test):
 
 
 def tune_knn(X_train_scaled, X_test_scaled, y_train, y_test, k_range=range(1, 21)):
-    """
-    Tests multiple values of k and reports which gives the highest accuracy.
-    This is basic grid search — scikit-learn's GridSearchCV can do this more
-    formally, but this version keeps it transparent.
-    """
     
     print("  KNN Hyperparameter Tuning — searching best k")
     

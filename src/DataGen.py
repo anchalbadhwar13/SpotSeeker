@@ -8,8 +8,7 @@ features = ['Hour', 'Day_of_Week', 'Month', 'Parking_Zone_ID',
 
 target_4class = df['occupancy_Status']   # Decision Tree / KNN / Neural Net (4-class)
 target_binary = df['Available_Binary']   # Minimal viable system
-target_regression = df['Occupancy_Rate'] # If doing regression
-
+target_regression = df['Occupancy_Rate'] 
 # For sklearn: encode categoricals
 from sklearn.preprocessing import LabelEncoder
 df['Zone_Enc'] = LabelEncoder().fit_transform(df['Parking_Zone_ID'])
